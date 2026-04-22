@@ -100,3 +100,5 @@ app.delete('/api/users/:id', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server ikorera kuri: http://localhost:${PORT}`);
 });
+
+app.get()
