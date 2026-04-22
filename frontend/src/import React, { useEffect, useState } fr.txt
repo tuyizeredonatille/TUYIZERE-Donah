@@ -1,0 +1,58 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation } from "react-router-dom";
+
+function REPORT() {
+  const [data, setData] = useState([]);
+  const location = useLocation();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const params = new URLSearchParams(location.search);
+        const sort = params.get("sort");
+
+        let url = "http://localhost:5000/users";
+
+        if (sort) {
+          url += `?sort=${sort}`;
+        }
+
+        const res = await axios.get(url);
+        setData(res.data);
+      } catch (error) {
+        console.log("Error fetching users:", error);
+      }
+    };
+
+    fetchData();
+  }, [location.search]);
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <h2>User Report</h2>
+
+      <table border="1" cellPadding="10">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {data.map((user) => (
+            <tr key={user.id}>
+              <td>{user.id}</td>
+              <td>{user.name}</td>
+              <td>{user.age}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export default REPORT;
